@@ -1,0 +1,281 @@
+@import url(./Inria_Sans/InriaSans.css);
+@import url(./Architects_Daughter/ArchitectsDaughter.css);
+
+:root {
+  color-scheme: light dark;
+
+  --r-main-font: "Inria Sans", "Open Sans", Helvetica, sans-serif;
+  --r-heading-font: "Inria Sans", "Open Sans", Helvetica, sans-serif;
+  --r-heading-text-transform: none;
+  --r-heading-font-weight: normal;
+  --r-block-margin: 3rem;
+
+  --r-background-color: light-dark(#fff, #191919);
+  --r-main-color: light-dark(#333b3c,#efefec);
+  --r-heading-color: light-dark(#333b3c,#efefec);
+  --r-link-color: light-dark(#2a76dd,#42affa);
+}
+
+.reveal {
+  h1, h2 {
+    margin-bottom: 3rem;
+  }
+
+  li {
+    margin-bottom: 2rem;
+  }
+
+  pre code {
+    padding: 1rem;
+    border-radius: 0.3em;
+  }
+
+  strong {
+      padding: 0 0.5rem 4px;
+      color: #fff;
+      border-radius: 0.1em;
+      background: gray;
+    &.primary {
+      background: #4285f4;
+    }
+    &.secondary {
+      background: #a772cb;
+    }
+  }
+
+  em {
+    font-style: normal;
+    font-weight: bold;
+    color: transparent;
+    background-clip: text;
+    background-image: linear-gradient(gray);
+    &.primary {
+      background-image: linear-gradient(to top left, #833ab4, #fd1d1d, #fcb045);
+    }
+    &.secondary {
+      background-image: linear-gradient(
+        72.83deg,
+        #4285f4 6%,
+        #a772cb 60%,
+        #851abe 100%
+      );
+    }
+  }
+
+  ul.dashed li {
+    list-style-type: none;
+    &:before {
+      display: inline-block;
+      content: "\2013";
+      position: relative;
+      margin-left: -20px;
+      left: -20px;
+      width: 20px;
+      font-size: 0.9em;
+    }
+  }
+
+  ol {
+    li {
+      padding-left: 0.2em;
+      &::marker {
+        font-weight: 300;
+        font-size: 0.9em;
+      }
+    }
+  }
+
+  .big {
+    font-size: 5.5rem;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  .no-margin {
+    margin: 0;
+  }
+
+  .nowrap {
+    white-space: nowrap;
+  }
+
+  .writing {
+    font-family: "Architects Daughter", cursive;
+  }
+
+  .backdrop-light, .backdrop-dark {
+    display: inline-block;
+    padding: 0 .3em;
+    border-radius: 0.1em;
+    line-height: 1.2;
+    backdrop-filter: blur(2px);
+  }
+  .backdrop-light {
+    background-color: rgba(255, 255, 255, .2);
+    color: #333;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1), 0 0 3px rgba(255, 255, 255, .6);
+  }
+  .backdrop-dark {
+    background-color: rgba(0, 0, 0, .25);
+    color: #fafafa;
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.1), 0 0 3px rgba(0, 0, 0, .6);
+  }
+
+  .flex-cols {
+    display: inline-flex;
+    gap: 3rem;
+
+    & > * {
+      flex: 1;
+      text-align: left;
+    }
+
+    h5 {
+      color: #555;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .title-slide, .ending-slide {
+    h1 {
+      margin-bottom: 1.5em;
+      font-family: "Architects Daughter", cursive;
+      font-size: 2.5rem;
+      font-weight: bold;
+
+      em {
+        font-size: 3.5rem;
+        background-image: linear-gradient(
+          72.83deg,
+          #4285f4 0%,
+          #a772cb 25%,
+          #851abe 50%,
+          #4285f4 75%,
+          #a772cb 100%
+        );
+        background-size: 400% auto;
+        animation: gradient 5s linear infinite normal;
+      }
+    }
+    h2 {
+      margin-bottom: 1em;
+      font-size: 2.5rem;
+      font-weight: 300;
+
+      em {
+        font-size: 3.5rem;
+      }
+    }
+    h2 + p {
+      margin-bottom: 2.5rem;
+      color: #777;
+    }
+    p {
+      font-size: 1.2rem;
+      font-weight: 300;
+      line-height: 1.5;
+    }
+    a.bluesky {
+      padding-left: 24px;
+      background-image: url(../img/bluesky.svg);
+      background-position: left 70%;
+      background-repeat: no-repeat;
+      background-size: 18px;
+    }
+    a.github svg {
+      color: var(--r-main-color);
+      fill: currentColor;
+      width: 20px;
+      height: 20px;
+      vertical-align: text-bottom;
+    }
+  }
+  .ending-slide {
+    h1, h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5em;
+      em {
+        font-size: 2.5rem;
+      }
+    }
+    h2 + p {
+      margin-bottom: 1rem;
+    }
+
+    p.fragment {
+      margin-top: 0.5rem;
+      margin-left: 0.5rem;
+    }
+  }
+
+  .conf-logo {
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+    background: url(../img/JSN_Logo_Black.png) no-repeat center center;
+    background-size: contain;
+  }
+
+  .header {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    right: 10px;
+    font-size: 16px;
+    z-index: 1;
+
+    .theme-toggle {
+      position: absolute;
+      top: 0;
+      right: 10px;
+      cursor: pointer;
+      opacity: .6;
+    }
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    right: 100px;
+    font-size: 16px;
+    z-index: 1;
+    opacity: 0.8;
+  }
+
+  .hljs-ln-numbers {
+    display: none;
+  }
+  .hljs.has-highlights tr:not(.highlight-line) {
+    opacity: 0.3;
+  }
+}
+
+html[data-theme="dark"] .reveal .conf-logo {
+    background-image: url(../img/JSN_Logo_White.png);
+  }
+
+.no-header .reveal .header {
+  display: none;
+}
+.no-footer .reveal .footer {
+  display: none;
+}
+
+.bg-opacity .slide-background-content {
+  opacity: 0.7;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}

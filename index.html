@@ -1,40 +1,327 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-		<title>reveal.js</title>
+    <title>Build Your Own Reactivity: A Deep Dive into Signals</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/white.css" />
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="css/custom-styles.css" />
+    <link rel="stylesheet" href="css/theme-switcher.css" />
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/nord.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section class="title-slide" data-state="no-footer">
+          <h1>
+            Build Your Own<br />
+            <em class="secondary">Reactivity</em>
+          </h1>
+          <h2>
+            A Deep Dive into<br />
+            <em class="primary">SIGNALS</em>
+          </h2>
+          <p>//</p>
+          <p style="margin-bottom: 0">
+            by <a href="http://cvuorinen.net">Carl Vuorinen</a> <br />
+            <a href="https://bsky.app/profile/cvuorinen.net" class="bluesky"
+              >@cvuorinen.net</a
+            >
+          </p>
+        </section>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+        <section>
+          <h2>What are <em class="primary">Signals</em> ?</h2>
+          <ul class="dashed">
+            <li class="fragment">
+              A container for a <strong class="primary">value</strong>
+            </li>
+            <li class="fragment">
+              State & UI updates<br /><strong class="secondary"
+                >automatically</strong
+              >
+              when<br />value changes
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Not the only way</h2>
+          <ul class="dashed">
+            <li class="fragment">
+              VDOM: <strong style="background: #58c4dc">React</strong>
+            </li>
+            <li class="fragment">
+              Dirty checking:
+              <strong style="background: #dd1b16">Angular</strong>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Why are <em class="primary">Signals</em> good?</h2>
+          <div class="fragment">
+            <strong class="secondary">Fine grained</strong> and
+            <strong class="primary">efficient</strong> reactivity
+          </div>
+        </section>
+
+        <section
+          data-background-image="img/mandalorian.jpg"
+          data-state="no-header no-footer"
+        >
+          <p class="r-stretch no-margin"></p>
+          <h2 class="big backdrop-dark">THIS IS THE WAY</h2>
+        </section>
+
+        <section>
+          <h2>What do we need?</h2>
+          <ol>
+            <li class="fragment">
+              Know <strong class="primary">who</strong> uses the value
+            </li>
+            <li class="fragment">
+              Know <strong class="secondary">when</strong> the value changes
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Plain variable 📦</h2>
+          <ul class="dashed">
+            <li class="fragment">A container for a value ✅</li>
+            <li class="fragment">Doesn’t know who uses the value ❌</li>
+            <li class="fragment">Doesn’t know when it’s value changes ❌</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2><em class="secondary">Functions</em> ✨</h2>
+          <ul class="dashed">
+            <li class="fragment">Can return a (contained) value ✅</li>
+            <li class="fragment">Can pass in a new value ✅</li>
+            <li class="fragment">Knows when it's called ✅</li>
+            <li class="fragment">Knows who calls it 🤔</li>
+          </ul>
+        </section>
+
+        <section
+          data-background-image="img/blueprint.jpg"
+          data-state="no-header no-footer bg-opacity"
+        >
+          <h2 class="big backdrop-light">EXAMPLES</h2>
+        </section>
+
+        <section>
+          <h2><strong style="background: #446b93">SolidJS</strong> signals</h2>
+          <pre><code data-trim class="language-javascript">
+            const [count, setCount] = createSignal(0);
+
+            const increment = () => setCount(count() + 1);
+          </code></pre>
+          <pre><code data-trim class="language-html">
+            <p>Count: {count()}</p>
+          </code></pre>
+        </section>
+
+        <section>
+          <h2><strong style="background: #dd1b16">Angular</strong> signals</h2>
+          <pre><code data-trim class="language-javascript">
+            const count = signal(0);
+
+            const increment = () => count.set(count() + 1);
+          </code></pre>
+          <pre><code data-trim class="language-html">
+            <p>Count: {{ count() }}</p>
+          </code></pre>
+        </section>
+
+        <section>
+          <h2><strong style="background: #42b883">Vue</strong> refs</h2>
+          <pre><code data-trim class="language-javascript">
+            const count = ref(0)
+
+            const increment = () => count.value++
+          </code></pre>
+          <pre><code data-trim class="language-html">
+            <p>Count: {{ count }}</p>
+          </code></pre>
+        </section>
+
+        <section>
+          <img src="img/fast-typing.gif" style="width: 100%" />
+        </section>
+
+        <section>
+          <ol style="width: 85%">
+            <li>
+              <strong class="primary">signal</strong>: container for a value
+            </li>
+            <li class="fragment">
+              <strong class="secondary">effect</strong>: tracks signals used
+              inside function
+            </li>
+            <li class="fragment">
+              <strong class="primary">signal</strong>: updates trigger effect
+              re-execution
+            </li>
+            <li class="fragment">
+              <strong>computed</strong>: syntax sugar for a signal <br />
+              calculated from effect
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>Pitfalls</h2>
+          <ul class="dashed">
+            <li class="fragment">
+              Conditionals: only signals trigger execution/<br />can only track
+              what is used
+            </li>
+            <li class="fragment">
+              Async: can only track what is used within scope
+            </li>
+            <li class="fragment">
+              Destructuring: can not track if you take the value out of the
+              container
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2><strong class="secondary">DISCLAIMER</strong></h2>
+          <p style="text-transform: uppercase; padding: 0 5%">
+            The following demonstration is meant for educational purposes
+            only.<br />
+            The demonstration contains raw html code and vanilla JavaScript,
+            without any framework, bundling or build step.<br />
+            Viewer discretion is advised.
+          </p>
+        </section>
+
+        <section class="ending-slide" data-state="no-footer">
+          <h1>
+            Build Your Own
+            <em class="secondary">Reactivity</em>
+          </h1>
+          <h2>
+            A Deep Dive into
+            <em class="primary">SIGNALS</em>
+          </h2>
+          <p>//</p>
+          <div class="flex-cols">
+            <div>
+              <h5># whoami</h5>
+              <p>
+                <a href="http://cvuorinen.net">Carl Vuorinen</a> <br />
+                <a href="https://bsky.app/profile/cvuorinen.net" class="bluesky"
+                  >@cvuorinen.net</a
+                > <br>
+                <a href="https://github.com/cvuorinen" class="github">
+                  <svg viewBox="0 0 24 24" version="1.1" width="24" height="24">
+                    <path d="M12 1C5.9225 1 1 5.9225 1 12C1 16.8675 4.14875 20.9787 8.52125 22.4362C9.07125 22.5325 9.2775 22.2025 9.2775 21.9137C9.2775 21.6525 9.26375 20.7862 9.26375 19.865C6.5 20.3737 5.785 19.1912 5.565 18.5725C5.44125 18.2562 4.905 17.28 4.4375 17.0187C4.0525 16.8125 3.5025 16.3037 4.42375 16.29C5.29 16.2762 5.90875 17.0875 6.115 17.4175C7.105 19.0812 8.68625 18.6137 9.31875 18.325C9.415 17.61 9.70375 17.1287 10.02 16.8537C7.5725 16.5787 5.015 15.63 5.015 11.4225C5.015 10.2262 5.44125 9.23625 6.1425 8.46625C6.0325 8.19125 5.6475 7.06375 6.2525 5.55125C6.2525 5.55125 7.17375 5.2625 9.2775 6.67875C10.1575 6.43125 11.0925 6.3075 12.0275 6.3075C12.9625 6.3075 13.8975 6.43125 14.7775 6.67875C16.8813 5.24875 17.8025 5.55125 17.8025 5.55125C18.4075 7.06375 18.0225 8.19125 17.9125 8.46625C18.6138 9.23625 19.04 10.2125 19.04 11.4225C19.04 15.6437 16.4688 16.5787 14.0213 16.8537C14.42 17.1975 14.7638 17.8575 14.7638 18.8887C14.7638 20.36 14.75 21.5425 14.75 21.9137C14.75 22.2025 14.9563 22.5462 15.5063 22.4362C19.8513 20.9787 23 16.8537 23 12C23 5.9225 18.0775 1 12 1Z"></path>
+                </svg>
+                  cvuorinen
+                </a>
+              </p>
+              <p class="fragment writing nowrap">☝ slides & demos</p>
+            </div>
+            <div>
+              <h5># whereiwork</h5>
+              <p>
+                Team lead <br>
+                @ <a href="https://citydevlabs.fi/">City Dev Labs</a>
+              </p>
+            </div>
+          </div>
+          <div class="fragment">
+            <br>
+            <h2 class="no-margin">Thank You</h2>
+            <div class="conf-logo"></div>
+          </div>
+        </section>
+      </div>
+
+      <header class="header">
+        <button
+          class="theme-toggle"
+          id="theme-toggle"
+          title="Toggles light & dark"
+          aria-label="auto"
+          aria-live="polite"
+        >
+          <svg
+            class="sun-and-moon"
+            aria-hidden="true"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <mask class="moon" id="moon-mask">
+              <rect x="0" y="0" width="100%" height="100%" fill="white" />
+              <circle cx="24" cy="10" r="6" fill="black" />
+            </mask>
+            <circle
+              class="sun"
+              cx="12"
+              cy="12"
+              r="6"
+              mask="url(#moon-mask)"
+              fill="currentColor"
+            />
+            <g class="sun-beams" stroke="currentColor">
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </g>
+          </svg>
+        </button>
+      </header>
+
+      <footer class="footer">
+        Build Your Own Reactivity: A Deep Dive into Signals &nbsp; &ndash;
+        &nbsp;
+        <a href="https://jsnation.com/">JSNation</a>
+        June 2025 &nbsp; by &nbsp;
+        <a href="https://bsky.app/profile/cvuorinen.net">@cvuorinen.net</a>
+      </footer>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script src="js/theme-switcher.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        controlsTutorial: false,
+        hash: true,
+        navigationMode: "linear",
+        transition: "fade",
+        fragmentInURL: false,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
 </html>
